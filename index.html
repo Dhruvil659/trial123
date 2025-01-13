@@ -6,8 +6,34 @@
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
+      <!-- Add a 3D box to track -->
       <a-box position="0 0.5 0" material="color: yellow;"></a-box>
       <a-marker-camera preset="hiro"></a-marker-camera>
     </a-scene>
+
+    <script>
+      // Define camera constraints
+      const constraints = {
+        video: {
+          facingMode: "environment", // Use back camera
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          focusMode: "continuous",
+        },
+      };
+
+      // Apply constraints
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {
+          const videoElement = document.querySelector("video");
+          if (videoElement) {
+            videoElement.srcObject = stream;
+            console.log("Camera constraints applied successfully.");
+          }
+        })
+        .catch((err) => {
+          console.error("Error accessing camera with constraints:", err);
+        });
+    </script>
   </body>
 </html>
